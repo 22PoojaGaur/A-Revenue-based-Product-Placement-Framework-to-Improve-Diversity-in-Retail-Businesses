@@ -6,17 +6,17 @@ import random
 
 # NOTE: not using zipf right now.
 def get_slots(num_slots, type_slots, zipf):
+    '''
+    Args -
+        num_slots: Dictionary containing number of slots
+            for each slot type
+        type_slots: number of type of slots
+        zipf: zipf factor [NOT USED YET]
+    '''
     slots = []
-    premiumness_idx = {}
-    start = 0.01
-    for i in range(1, type_slots+1):
-        premiumness_idx[i-1] = (start, start+(1/(type_slots)))
+    for i in range(0, type_slots):
         slots.append([])
-        for _ in range(0, int(num_slots/type_slots)):
-            slots[i-1].append(0)
-    else:
-        rem = num_slots - type_slots*int(num_slots/type_slots)
-        for k in range(0, rem):
-            slots[-1].append(0)
+        for _ in range(0, num_slots[i]):
+            slots[i].append(0)
     
     return slots
