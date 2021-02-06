@@ -2,7 +2,6 @@
 Given arc, kui index, data dictionary, dranks, slots
 Runs DPRIP algorithm and returns slots.
 '''
-from PRIP import PRIP
 import globals
 import random
 import copy
@@ -57,39 +56,17 @@ def insert_one_itemset(slots, top_kui_per_slot_rev, top_kui_ptrs, kui_idx, CAS, 
         for slot_type in range (0, globals.NUM_TYPE_SLOTS):
             all_slots.extend(slots[slot_type])
         placed = [node[0] for node in all_slots]
-        #placed = []
-        # print (top_kui_per_slot_rev)
         
         if top_kui_node[0] not in placed:
             node = kui_idx[top[0]][top_kui_ptrs[top[0]]]
             price = node[2]
             if method == 'DR':
-                #print ('DR', str(node[2]))
-                # print (node[2])
-                # print ('PRICE')
-                # print (node[1])
-                # print ('SUPPORT count')
-                # print (len(node[0]))
-                # print ('LENGTH')
                 price = node[2]
                 
             slots[stype].append((
                 node[0],
                 price, 
                 node[-1]))
-
-            # global IDX 
-            # IDX += 1            
-            # if IDX-1 in TOP_REVENUE.keys():
-            #     TOP_REVENUE[IDX] = (
-            #         TOP_REVENUE[IDX-1][0] + node[-2],
-            #         node[0]
-            #     )
-            # else:
-            #     TOP_REVENUE[IDX] = (
-            #         node[-2],
-            #         node[0]
-            #     )
 
             DRANK_MEAN += kui_idx[top[0]][top_kui_ptrs[top[0]]][-1]
             TOTAL_PLACED += 1
@@ -107,7 +84,7 @@ def insert_one_itemset(slots, top_kui_per_slot_rev, top_kui_ptrs, kui_idx, CAS, 
         if top_kui_ptrs[top[0]] >= len(kui_idx[top[0]]):
             top_kui_per_slot_rev[top[0]] = -1
         else:
-            if globals.SEPARATE_PLACEMENT_SCHEMES and method == 'D':
+            if method == 'D':
                 top_kui_per_slot_rev[top[0]] = kui_idx[top[0]][top_kui_ptrs[top[0]]][-1]/float(top[0])
             else:
                 top_kui_per_slot_rev[top[0]] = kui_idx[top[0]][top_kui_ptrs[top[0]]][-2]/float(top[0])

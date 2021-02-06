@@ -7,17 +7,13 @@ from efficient_apriori import apriori
 import math
 import random
 import globals
-import imsapriori
 
 # Get useful global variables
 SUPPORT_THRESH = globals.SUPPORT_THRESHOLD
 K_FOR_KUI_IDX = globals.K_FOR_KUI_IDX
 TEST_RATIO = globals.TEST_SPLIT
 TRAIN_RATIO = globals.TRAIN_SPLIT
-SD = globals.SD
-LS = globals.LS
 PRICE_BRACKETS = globals.PRICE_BRACKETS
-mining_method = globals.MINING_METHOD
 
 
 def nonblank_lines(f):
@@ -54,7 +50,7 @@ def parse_data(data_file_name):
                 mod_patterns[k] = v
         patterns = mod_patterns
     elif mining_method == 'ims':
-        patterns = imsapriori.find_patterns(train_transactions, SD=SD, LS=LS)
+        pass
 
     # set prices
     prices = {}

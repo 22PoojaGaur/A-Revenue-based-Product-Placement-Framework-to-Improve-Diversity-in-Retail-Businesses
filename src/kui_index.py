@@ -60,12 +60,6 @@ def _get_kui_idx_with_diversity(data, dranks, method):
     for itemset in data.keys():
         value = list([itemset]) + list(data[itemset]) + [data[itemset][0] * data[itemset][1]] + [dranks[itemset]]
         
-        # # apply threshold for drip method
-        # if method == 'DR':
-        #     if value[-1] < KUI_DRIP_DRANK_THRESHOLD:
-        #         continue
-        #     if value[-2] < KUI_DRIP_REVENUE_THRESHOLD:
-        #         continue
 
         level = len(itemset)
         if level > K_FOR_KUI_IDX:
@@ -90,11 +84,6 @@ def _get_kui_idx_with_diversity(data, dranks, method):
             kui[level] = kui[level][0:2*LAMBDA]
         else:
             kui[level] = kui[level][0:LAMBDA]
-
-    # import pprint
-    # if method == 'R':
-    #     print ('KUI level 2')
-    #     pprint.pprint(kui[2], width = 1)
 
     return kui
 

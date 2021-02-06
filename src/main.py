@@ -5,9 +5,7 @@ from data_parser import parse_data
 from data_parser import parse_ch_dict
 from calculate_drank import get_dranks
 from kui_index import get_kui_index
-from ARC import get_arc
 from slots import get_slots
-from PRIP import PRIP
 from DPRIP import DPRIP
 from evaluate import evaluate_new
 import globals
@@ -36,13 +34,7 @@ def get_data():
     if path.isfile('dataset.pkl') and path.isfile('test.pkl'):
         train = pkl.load(open('dataset.pkl', 'rb'))
         test = pkl.load(open('test.pkl', 'rb'))
-#       shorten the train dataset
-#       train_2 = {}
-#       for (k, v) in train.items():
-#           if len(k) > 1:
-#               train_2[k] = v   
-#       import itertools
-#       train = dict(itertools.islice(train_2.items(), 500))
+
     else:
         (train, test) = parse_data(DATA_FNAME)
         pkl.dump(train_data_dict, open('dataset.pkl', 'wb'))
@@ -57,7 +49,6 @@ if __name__ == '__main__':
     # Get globals in variables
     num_slots = globals.NUM_SLOTS
     type_slots = globals.NUM_TYPE_SLOTS
-    zipf = globals.ZIPF
     method = globals.METHOD
 
     # processing data
@@ -83,16 +74,10 @@ if __name__ == '__main__':
     else:
         kui_idx = get_kui_index(train_data, dranks=dranks, method=method)
      
-    # for (k, v) in kui_idx.items():
-    #     print ("Length level %d", k)
-    #     l = 0
-    #     for node in v:
-    #         l += len(node[0])
-    #     print (l)
    
     start = time.time()
     # get empty slots
-    slots = get_slots(num_slots, type_slots, zipf)
+    slots = get_slots(num_slots, type_slots, 0)
     (slots, num_slots, tr_train, dr_train) = DPRIP(
         train_data, kui_idx, dranks, slots, method)
     end = time.time()
@@ -112,12 +97,6 @@ if __name__ == '__main__':
     pkl.dump(slots, output)
     output.close()
 
-    # Automating the write of graph essential files
-
-    # for stype in range(0, len(slots)):
-    #     print ("TOP 10 slots of stype - ", stype)
-    #     print (slots[stype][0:10])
-    # list of each metric would be stored in pkl files
     pkl_prefix = 'results/' + method + '_'
     metrics = {
         'num_slots': num_slots,
